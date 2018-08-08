@@ -110,7 +110,7 @@ MAGIC_BYTE = 0
 
 class LogStash::Codecs::AvroSchemaRegistry < LogStash::Codecs::Base
   config_name "avro_schema_registry"
-  
+
   EXCLUDE_ALWAYS = [ "@timestamp", "@version" ]
 
   # schema registry endpoint and credentials
@@ -131,7 +131,7 @@ class LogStash::Codecs::AvroSchemaRegistry < LogStash::Codecs::Base
   config :client_key, :validate => :string, :default => nil
   config :ca_certificate, :validate => :string, :default => nil
   config :verify_mode, :validate => :string, :default => 'verify_peer'
-  
+
   public
   def register
 
@@ -237,7 +237,7 @@ class LogStash::Codecs::AvroSchemaRegistry < LogStash::Codecs::Base
     eh.delete_if { |key, _| EXCLUDE_ALWAYS.include? key }
     dw.write(eh, encoder)
     if @binary_encoded
-       @on_event.call(event, buffer.string.to_java_bytes)
+       @on_event.call(event, buffer.string)
     else
        @on_event.call(event, Base64.strict_encode64(buffer.string))
     end
